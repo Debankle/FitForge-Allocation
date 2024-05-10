@@ -9,7 +9,6 @@ class DataHandler {
     private fit: number[][];
     private impact: number[][];
     private bvalues: number[][];
-    private modified_values: number[][];
 
     private calculateBValues = (): void => {
         const bvalues: number[][] = [[]];
@@ -26,7 +25,6 @@ class DataHandler {
         this.fit = obj.fit ;
         this.impact = this.impact;
         this.calculateBValues();
-        this.modified_values = this.bvalues;
     }
 }
 
