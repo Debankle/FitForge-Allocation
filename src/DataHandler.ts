@@ -12,7 +12,7 @@ class DataHandler {
   private impact: number[][];
   private bvalues: number[][];
 
-  private calculateBValues = (): void => {
+  public calculateBValues = (): number[][] => {
     const bvalues: number[][] = [[]];
     for (let i = 0; i < this.preferences.length; i++) {
       // rows
@@ -23,6 +23,7 @@ class DataHandler {
       }
     }
     this.bvalues = bvalues;
+    return bvalues;
   };
 
   public getAllocation = (): any => {
@@ -39,7 +40,6 @@ class DataHandler {
     this.preferences = preferences;
     this.fit = fit;
     this.impact = impact;
-    this.calculateBValues();
   }
 }
 
