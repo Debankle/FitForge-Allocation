@@ -1,11 +1,11 @@
-const solver = require("javascript-lp-solver");
+import solver from "javascript-lp-solver";
 
-interface Props {
-  bvalues: number[][];
-  P: number[][]; // [team, project] that must be allocated
-  Q: number[][]; // [team, project] that must not be allocated
-  R: number[]; // Number of teams available for project, set default to 1
-}
+// interface Props {
+//   bvalues: number[][];
+//   P: number[][]; // [team, project] that must be allocated
+//   Q: number[][]; // [team, project] that must not be allocated
+//   R: number[]; // Number of teams available for project, set default to 1
+// }
 
 interface Constraints {
   [key: string]: { max: number };
@@ -19,10 +19,15 @@ interface AllocatorReturn {
   [key: string]: boolean | number | boolean | number[];
 }
 
-const Allocator = (props: Props): AllocatorReturn => {
+const Allocator = (
+  bvalues: number[][],
+  P: number[][],
+  Q: number[][],
+  R: number[]
+): AllocatorReturn => {
   // Setup variables
-  const m = props.bvalues.length;
-  const n = props.bvalues[0].length;
+  const m = bvalues.length;
+  const n = bvalues[0].length;
   const constraints: Constraints = {};
   const variables: Variables = {};
 
@@ -31,13 +36,13 @@ const Allocator = (props: Props): AllocatorReturn => {
     constraints[`T${i}`] = { max: 1 };
   }
   for (var j = 1; j < n + 1; j++) {
-    constraints[`P${j}`] = { max: props.R[j] };
+    constraints[`P${j}`] = { max: R[j - 1] };
   }
 
   for (var i = 1; i < m + 1; i++) {
     for (var j = 1; j < n + 1; j++) {
       variables[`x_${i}_${j}`] = {
-        score: props.bvalues[i - 1][j - 1],
+        score: bvalues[i - 1][j - 1],
       };
       for (var p = 1; p < m + 1; p++) {
         variables[`x_${i}_${j}`][`T${p}`] = 0;
@@ -50,12 +55,12 @@ const Allocator = (props: Props): AllocatorReturn => {
     }
   }
 
-  for (var i = 1; i < props.P.length; i++) {
-    variables[`x_${props.P[i][0]}_${props.P[i][1]}`]["score"] = 1000;
+  for (var i = 1; i < P.length; i++) {
+    variables[`x_${P[i][0]}_${P[i][1]}`]["score"] = 1000;
   }
 
-  for (var j = 1; j < props.Q.length; j++) {
-    variables[`x_${props.Q[j][0]}_${props.Q[j][1]}`]["score"] = -1000;
+  for (var j = 1; j < Q.length; j++) {
+    variables[`x_${Q[j][0]}_${Q[j][1]}`]["score"] = -1000;
   }
 
   const model = {
