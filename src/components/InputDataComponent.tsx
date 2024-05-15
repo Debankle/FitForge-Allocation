@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import readXlsxFile from "read-excel-file";
 import Allocator from "../Allocator";
-import DataHandler from "../DataHandler";
+import FileBox from './FileBox';
 
 function InputDataComponent() {
   const [files, setFile] = useState<File[]>([]);
@@ -83,10 +83,14 @@ function InputDataComponent() {
       ></input>
 
       <div>
-        {files.map((file, index) => (
+        {/* {files.map((file, index) => (
           <div key={index}>{`${file.name} - ${file.type}`}</div>
+        ))} */}
+        {files.map((file, index) => (
+            <FileBox file={file} key={index} />
         ))}
       </div>
+      
       <button className="button" onClick={allocate}>
         Allocate
       </button>
