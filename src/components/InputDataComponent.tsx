@@ -83,9 +83,6 @@ function InputDataComponent() {
       ></input>
 
       <div>
-        {/* {files.map((file, index) => (
-          <div key={index}>{`${file.name} - ${file.type}`}</div>
-        ))} */}
         <FileDisplay files={files}/>
       </div>
       

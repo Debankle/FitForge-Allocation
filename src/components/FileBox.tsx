@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import readXlsxFile, { readSheetNames } from "read-excel-file";
+import { readSheetNames } from "read-excel-file";
 
 interface Props {
   file: File;
